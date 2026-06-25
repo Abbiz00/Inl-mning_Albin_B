@@ -33,10 +33,15 @@ def start(state):
     while not command.casefold() in ["q", "x"]:
         print_status(state.g, state)
 
-        command = input("Use WASD to move, Q/X to quit. ")
+        command = input("Use WASD to move, i för innehåll Q/X to quit. ")
         command = command.casefold()[:1]
         maybe_item = None # reset
 
+        # skriver ut inventarier
+        if command == "i":
+            print("Inventarier:" +", ".join(state.inventory))
+            continue
+y
         if command == "d" and state.player.can_move(1, 0, state.g):  # move right
             # TODO: skapa funktioner, så vi inte behöver upprepa så mycket kod för riktningarna "W,A,S"
             maybe_item = state.g.get(state.player.pos_x + 1, state.player.pos_y)
@@ -56,6 +61,7 @@ def start(state):
             # TODO: skapa funktioner, så vi inte behöver upprepa så mycket kod för riktningarna "W,A,S"
             maybe_item = state.g.get(state.player.pos_x, state.player.pos_y -1)
             state.player.move(0, -1)
+
 
 
         if isinstance(maybe_item, pickups.Item):
