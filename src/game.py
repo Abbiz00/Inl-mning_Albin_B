@@ -29,7 +29,7 @@ def print_status(game_grid, state):
 
 def start(state):
     command = "a"
-    # Loopa tills användaren trycker Q eller X.
+    # loopa tills användaren trycker Q eller X.
     while not command.casefold() in ["q", "x"]:
         print_status(state.g, state)
 
@@ -65,6 +65,9 @@ def start(state):
             #g.set(player.pos_x, player.pos_y, g.empty)
             state.g.clear(state.player.pos_x, state.player.pos_y)
 
+            #Lägger till elementen i en ny lista och sparar den i state.inventory
+            state.inventory.append(maybe_item.name)
+            #print(f"pickuplista: {state.inventory}") # skriver ut listan som test
 
 
     # Hit kommer vi när while-loopen slutar

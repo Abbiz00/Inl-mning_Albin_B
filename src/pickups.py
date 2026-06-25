@@ -9,8 +9,8 @@ class Item:
     def __str__(self):
         return self.symbol
 
-
-pickups = [Item("carrot"), Item("apple"), Item("strawberry"), Item("cherry"), Item("watermelon"), Item("radish"), Item("cucumber"), Item("meatball")]
+fruits = {"apple", "strawberry", "cherry", "watermelon"}
+pickups = [Item(name, value=20 if name in fruits else 10) for name in ["carrot", "apple", "strawberry", "cherry", "watermelon", "radish", "cucumber", "meatball"]]
 
 
 def randomize(grid):
