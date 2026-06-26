@@ -53,6 +53,25 @@ class Grid:
             self.set(j, 0, self.wall)
             self.set(j, self.height - 1, self.wall)
 
+    def make_extra_walls(self, count=3):
+        """Skapa sammanhängande L-formade väggar"""
+        x = random.randint(1, self.width - 7)
+        y = random.randint(1, self.height - 7)
+
+        for _ in range(count):
+            # Rita väggen FÖRE vi förflyttar x
+            for i in range(5):
+                self.set(x + i, y, self.wall)  # horisontell
+            for i in range(1, 5):
+                self.set(x, y + i, self.wall)  # vertikal
+
+            # Förflytta sedan till nästa position
+            x += 4
+            if x > self.width - 7:
+                break
+            if y > self.height - 7:
+                break
+
 
     # Används i filen pickups.py
     def get_random_x(self):
