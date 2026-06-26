@@ -29,9 +29,14 @@ def print_status(game_grid, state):
 
 def start(state):
     command = "a"
+    count_steps = 0
     # loopa tills användaren trycker Q eller X.
+
     while not command.casefold() in ["q", "x"]:
+
+
         print_status(state.g, state)
+
 
         command = input("Use WASD to move, i för innehåll Q/X to quit. ")
         command = command.casefold()[:1]
@@ -41,7 +46,7 @@ def start(state):
         if command == "i":
             print("Inventarier:" +", ".join(state.inventory))
             continue
-y
+
         if command == "d" and state.player.can_move(1, 0, state.g):  # move right
             # TODO: skapa funktioner, så vi inte behöver upprepa så mycket kod för riktningarna "W,A,S"
             maybe_item = state.g.get(state.player.pos_x + 1, state.player.pos_y)
@@ -75,6 +80,8 @@ y
             state.inventory.append(maybe_item.name)
             #print(f"pickuplista: {state.inventory}") # skriver ut listan som test
 
+        # remove one point every step if score is above zero
+        if state.score > 0: state.score -= 1
 
     # Hit kommer vi när while-loopen slutar
     print("Thank you for playing!")
