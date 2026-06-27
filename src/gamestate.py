@@ -12,13 +12,19 @@ class GameState:
         self.g = Grid()
         self.g.make_walls()
         self.g.make_extra_walls()
+        self.g.make_trap()
         pickups.randomize(self.g)
 
-        # Start på (17,5), flytta ett steg i taget om blockerad
+        # Start på (17,5), loopen letar tills den hittar en ledig ruta
         x, y = 17, 5
-        for dx, dy in [(0, 0), (1, 0), (-1, 0), (0, 1), (0, -1)]:
-            if self.g.is_empty(x + dx, y + dy):
-                x, y = x + dx, y + dy
+        if not self.g.is_empty(x, y):
+            for check_y in range(1, self.g.height - 1):
+                for check_x in range(1, self.g.width - 1):
+                    if self.g.is_empty(check_x, check_y):
+                        x, y = check_x, check_y
+                        break
+                else:
+                    continue
                 break
 
         self.player = Player(x, y)

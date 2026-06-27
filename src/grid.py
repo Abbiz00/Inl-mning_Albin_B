@@ -4,6 +4,7 @@ class Grid:
     """Representerar spelplanen. Du kan ändra standardstorleken och tecknen för olika rutor. """
     width = 36
     height = 12
+
     empty = "."  # Tecken för en tom ruta
     wall = "■"   # Tecken för en ogenomtränglig vägg
 
@@ -53,10 +54,13 @@ class Grid:
             self.set(j, 0, self.wall)
             self.set(j, self.height - 1, self.wall)
 
+
     def make_extra_walls(self, count=3):
         """Skapa sammanhängande L-formade väggar"""
         x = random.randint(1, self.width - 7)
         y = random.randint(1, self.height - 7)
+
+
 
         for _ in range(count):
             # Rita väggen FÖRE vi förflyttar x
@@ -66,14 +70,32 @@ class Grid:
                 self.set(x, y + i, self.wall)  # vertikal
 
             # Förflytta sedan till nästa position
-            x += 4
+            x += 6
             if x > self.width - 7:
                 break
-            if y > self.height - 7:
+            #if y > self.height - 7:
+            #    break
+
+    def make_trap(self):
+        trap_x = random.randint(1, self.width - 2)
+        trap_y = random.randint(1, self.height - 2)
+        # test utskrift
+        #print(f"trap x position{trap_x} trap y position{trap_y}")
+        #print(f"höjd {self.height} bredd {self.width}")
+
+        # Försök placera fällan, flytta ett steg om blockerad
+        for dx, dy in [(0, 0), (1, 0), (-1, 0), (0, 1), (0, -1)]:
+            if self.is_empty(trap_x + dx, trap_y + dy):
+                trap_x, trap_y = trap_x + dx, trap_y + dy
+                # testutskrift ny position
+                print(f"new trap x position{trap_x} new trap y position{trap_y}")
+                print(f"höjd {self.height} bredd {self.width}")
+                self.set(trap_x, trap_y,"T")
                 break
 
 
     # Används i filen pickups.py
+
     def get_random_x(self):
         """Slumpa en x-position på spelplanen"""
         return random.randint(0, self.width-1)

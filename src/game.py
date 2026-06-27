@@ -1,5 +1,4 @@
 from idlelib.debugger_r import start_remote_debugger
-
 from src.grid import Grid
 from src.player import Player
 from src import pickups
@@ -51,7 +50,7 @@ def start(state):
             state.g.clear(state.player.pos_x, state.player.pos_y)
             state.inventory.append(maybe_item.name)
 
-        if state.score > 0:
+        if maybe_item is not None and state.score > 0:
             state.score -= 1
 
     print("Thank you for playing!")

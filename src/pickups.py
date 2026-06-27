@@ -1,4 +1,5 @@
 
+import random
 class Item:
     """Representerar saker man kan plocka upp."""
     def __init__(self, name, value=10, symbol="?"):
@@ -17,8 +18,8 @@ def randomize(grid):
     for item in pickups:
         while True:
             # slumpa en position tills vi hittar en som är ledig
-            x = grid.get_random_x()
-            y = grid.get_random_y()
+            x = random.randint(1, grid.width - 2)
+            y = random.randint(1, grid.height - 2)
             if grid.is_empty(x, y):
                 grid.set(x, y, item)
                 break  # avbryt while-loopen, fortsätt med nästa varv i for-loopen
