@@ -1,3 +1,4 @@
+import random
 from src import pickups
 from src.grid import Grid
 from src.player import Player
@@ -15,16 +16,13 @@ class GameState:
         self.g.make_trap()
         pickups.randomize(self.g)
 
-        # Start på (17,5), loopen letar tills den hittar en ledig ruta
+        # försöker starta på (17,5), om upptagen slumpar startpunkt till en ledig ruta
         x, y = 17, 5
         if not self.g.is_empty(x, y):
-            for check_y in range(1, self.g.height - 1):
-                for check_x in range(1, self.g.width - 1):
-                    if self.g.is_empty(check_x, check_y):
-                        x, y = check_x, check_y
-                        break
-                else:
-                    continue
+           while True:
+              x = random.randint(1, self.g.width - 2)
+              y = random.randint(1, self.g.height - 2)
+              if self.g.is_empty(x, y):
                 break
 
         self.player = Player(x, y)

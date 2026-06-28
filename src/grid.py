@@ -56,14 +56,14 @@ class Grid:
 
 
     def make_extra_walls(self, count=3):
-        """Skapa sammanhängande L-formade väggar"""
-        x = random.randint(1, self.width - 7)
-        y = random.randint(1, self.height - 7)
+        # skapa väggar
+        x = random.randint(2, self.width - 7)
+        y = random.randint(2, self.height - 7)
 
 
 
         for _ in range(count):
-            # Rita väggen FÖRE vi förflyttar x
+            # Rita väggen Före vi förflyttar x
             for i in range(5):
                 self.set(x + i, y, self.wall)  # horisontell
             for i in range(1, 5):
@@ -73,8 +73,6 @@ class Grid:
             x += 6
             if x > self.width - 7:
                 break
-            #if y > self.height - 7:
-            #    break
 
     def make_trap(self):
         trap_x = random.randint(1, self.width - 2)
@@ -88,8 +86,8 @@ class Grid:
             if self.is_empty(trap_x + dx, trap_y + dy):
                 trap_x, trap_y = trap_x + dx, trap_y + dy
                 # testutskrift ny position
-                print(f"new trap x position{trap_x} new trap y position{trap_y}")
-                print(f"höjd {self.height} bredd {self.width}")
+                #print(f"new trap x position{trap_x} new trap y position{trap_y}")
+                #print(f"höjd {self.height} bredd {self.width}")
                 self.set(trap_x, trap_y,"T")
                 break
 
