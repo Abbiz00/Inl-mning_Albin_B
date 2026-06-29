@@ -11,8 +11,19 @@ class Item:
         return self.symbol
 
 fruits = {"apple", "strawberry", "cherry", "watermelon"}
-pickups = [Item(name, value=20 if name in fruits else 10) for name in ["carrot", "apple", "strawberry", "cherry", "watermelon", "radish", "cucumber", "meatball"]]
+veggies_meat = ["carrot", "radish", "cucumber", "meatball"]
 
+all_items = list(fruits) + veggies_meat
+pickups = [Item(name, value=20 if name in fruits else 10) for name in all_items]
+
+# Random frukt
+fruit_items = [item for item in pickups if item.name in fruits]
+picked = random.choice(pickups)
+
+def reveal_picked():
+    global picked
+    picked.symbol = "?"   #går att ändra till annan symbol för att göra det tydligare
+    picked = random.choice(pickups)
 
 def randomize(grid):
     for item in pickups:

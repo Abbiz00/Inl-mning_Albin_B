@@ -6,6 +6,7 @@ from src.player import Player
 class GameState:
 
     def __init__(self):
+        self.steps = 0
         self.score = 0
         self.inventory = []
 

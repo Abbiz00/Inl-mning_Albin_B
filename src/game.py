@@ -1,3 +1,4 @@
+import random
 from idlelib.debugger_r import start_remote_debugger
 from src.grid import Grid
 from src.player import Player
@@ -34,11 +35,8 @@ def start(state):
 
     while not command.casefold() in ["q", "x"]:
         print_status(state.g, state)
-
         command = input("Use WASD to move, i för innehåll Q/X to quit. ")
         command = command.casefold()[:1]
-
-
 
         # visar Inventarier
         if command == "i":
@@ -46,10 +44,6 @@ def start(state):
             continue
 
         maybe_item = try_move(command, state)
-
-        # Exit
-        if maybe_item == "E" and len(state.inventory) == len(pickups.pickups):
-            exit(0)
 
         if isinstance(maybe_item, pickups.Item):
             state.score += maybe_item.value
@@ -63,14 +57,28 @@ def start(state):
 
             if state.score < 0:
                state.score = 0
-
             print("You stepped on a trap")
-
 
         # minskar poängen med ett för varje steg
         if maybe_item is not None and state.score > 0:
             state.score -= 1
 
+        #Räknar steg
+        if maybe_item is not None:
+            state.steps +=1
+
+        # kontrollerar om man gått 25 steg och anropar funktion för att skapa ny item
+        #print(pickups.all_fruits)
+        print (state.steps)
+        if state.steps % 25 ==0 and state.steps > 0:
+            pickups.reveal_picked()
+
+            #testutskrift
+            #print(f"{pickups.picked.name} (value: {pickups.picked.value})")
+
+        # Exit
+        if maybe_item == "E" and len(state.inventory) == len(pickups.pickups):
+            exit(0)
 
 
     print("Thank you for playing!")
