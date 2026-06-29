@@ -14,6 +14,7 @@ class GameState:
         self.g.make_walls()
         self.g.make_extra_walls()
         self.g.make_trap()
+        self.g.make_exit()
         pickups.randomize(self.g)
 
         # försöker starta på (17,5), om upptagen slumpar startpunkt till en ledig ruta

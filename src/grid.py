@@ -91,6 +91,19 @@ class Grid:
                 self.set(trap_x, trap_y,"T")
                 break
 
+    # skapa exit
+    def make_exit(self):
+        trap_x = random.randint(1, self.width - 2)
+        trap_y = random.randint(1, self.height - 2)
+
+
+        # Försök placera Exit, flytta ett steg om blockerad
+        for dx, dy in [(0, 0), (1, 0), (-1, 0), (0, 1), (0, -1)]:
+            if self.is_empty(trap_x + dx, trap_y + dy):
+                trap_x, trap_y = trap_x + dx, trap_y + dy
+                self.set(trap_x, trap_y,"E")
+                break
+
 
     # Används i filen pickups.py
 

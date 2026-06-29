@@ -38,12 +38,18 @@ def start(state):
         command = input("Use WASD to move, i för innehåll Q/X to quit. ")
         command = command.casefold()[:1]
 
+
+
         # visar Inventarier
         if command == "i":
             print("Inventory: " + ", ".join(state.inventory))
             continue
 
         maybe_item = try_move(command, state)
+
+        # Exit
+        if maybe_item == "E" and len(state.inventory) == len(pickups.pickups):
+            exit(0)
 
         if isinstance(maybe_item, pickups.Item):
             state.score += maybe_item.value
@@ -59,6 +65,7 @@ def start(state):
                state.score = 0
 
             print("You stepped on a trap")
+
 
         # minskar poängen med ett för varje steg
         if maybe_item is not None and state.score > 0:
