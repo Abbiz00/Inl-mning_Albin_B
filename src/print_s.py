@@ -1,8 +1,11 @@
-def print_status(game_grid, state):
+def print_status(stdscr, game_grid, state):
     """Visa spelvärlden och antal poäng."""
-    print("--------------------------------------")
-    print(f"You have {state.score} points.")
+    stdscr.erase()
+    y = 0
+    stdscr.addstr(y, 0, "--------------------------------------"); y += 1
+    stdscr.addstr(y, 0, f"You have {state.score} points."); y += 1
     if state.last_revealed_item:
-        print(state.last_revealed_item)
+        stdscr.addstr(y, 0, state.last_revealed_item); y += 1
         state.last_revealed_item = None
-    print(game_grid)
+    stdscr.addstr(y, 0, str(game_grid))
+    stdscr.refresh()

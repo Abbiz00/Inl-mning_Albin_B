@@ -1,5 +1,6 @@
-import random
 from idlelib.debugger_r import start_remote_debugger
+import curses
+import random
 from src.grid import Grid
 from src.player import Player
 from src import pickups
@@ -30,12 +31,12 @@ def try_move(command, state):
     return maybe_item
 
 
-def start(state):
+def start(stdscr, state):
     command = "a"
 
     while not command.casefold() in ["q", "x"]:
-        print_status(state.g, state)
-        command = input("Use WASD to move, i för innehåll, t för att desarmera fällor, Q/X to quit. ")
+        print_status(stdscr, state.g, state)
+        command = stdscr.getkey()
         command = command.casefold()[:1]
 
         # visar Inventarier
@@ -101,4 +102,4 @@ def start(state):
 # saker från game.py i en annan fil, till exempel vid testning.
 if __name__ == "__main__":
     game_state = GameState()
-    start(game_state)
+    curses.wrapper(lambda stdscr: start(stdscr, game_state))
