@@ -19,11 +19,29 @@ pickups = [Item(name, value=20 if name in fruits else 10) for name in all_items]
 # Random frukt
 fruit_items = [item for item in pickups if item.name in fruits]
 picked = random.choice(pickups)
+revealed = []
 
-def reveal_picked():
+
+def reveal_picked(grid):
     global picked
-    picked.symbol = "?"   #går att ändra till annan symbol för att göra det tydligare
-    picked = random.choice(pickups)
+
+    candidates = []
+    for y in range(grid.height):
+        for x in range(grid.width):
+            cell = grid.get(x, y)
+            if isinstance(cell, Item):
+                candidates.append(cell)
+
+    candidates = [item for item in candidates if item not in revealed]
+
+    if candidates:
+        picked = random.choice(candidates)
+
+        picked.symbol = "?"
+        revealed.append(picked)
+
+    else:
+        picked = None
 
 def randomize(grid):
     for item in pickups:

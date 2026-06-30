@@ -9,6 +9,7 @@ class GameState:
         self.steps = 0
         self.score = 0
         self.inventory = []
+        self.last_revealed_at = 0
 
         # Bygg griden och väggarna innan spelaren placeras
         self.g = Grid()

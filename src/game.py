@@ -69,16 +69,18 @@ def start(state):
 
         # kontrollerar om man gått 25 steg och anropar funktion för att skapa ny item
         #print(pickups.all_fruits)
-        print (state.steps)
-        if state.steps % 25 ==0 and state.steps > 0:
-            pickups.reveal_picked()
+        #print (state.steps)
+        if state.steps % 25 ==0 and state.steps > 0 and state.steps != state.last_revealed_at:
+            pickups.reveal_picked(state.g)
+            state.last_revealed_at = state.steps
+            #print(f"DEBUG: now revealed = {pickups.picked.name} at symbol {pickups.picked.symbol}")
 
             #testutskrift
             #print(f"{pickups.picked.name} (value: {pickups.picked.value})")
 
         # Exit
         if maybe_item == "E" and len(state.inventory) == len(pickups.pickups):
-            exit(0)
+            break
 
 
     print("Thank you for playing!")
