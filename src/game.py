@@ -50,6 +50,7 @@ def start(state):
             print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
             state.g.clear(state.player.pos_x, state.player.pos_y)
             state.inventory.append(maybe_item.name)
+            state.grace_steps = 5
 
         # Fälla minskar poängen med 10, om poäng mindre än 10 noll poäng
         elif maybe_item == "T":
@@ -60,7 +61,9 @@ def start(state):
             print("You stepped on a trap")
 
         # minskar poängen med ett för varje steg
-        if maybe_item is not None and state.score > 0:
+        if maybe_item is not None and state.grace_steps > 0:
+            state.grace_steps -= 1
+        elif maybe_item is not None and state.score > 0:
             state.score -= 1
 
         #Räknar steg
@@ -73,8 +76,6 @@ def start(state):
         if state.steps % 25 ==0 and state.steps > 0 and state.steps != state.last_revealed_at:
             pickups.reveal_picked(state.g)
             state.last_revealed_at = state.steps
-            #print(f"DEBUG: now revealed = {pickups.picked.name} at symbol {pickups.picked.symbol}")
-
             #testutskrift
             #print(f"{pickups.picked.name} (value: {pickups.picked.value})")
 

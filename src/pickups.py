@@ -36,9 +36,12 @@ def reveal_picked(grid):
 
     if candidates:
         picked = random.choice(candidates)
-
         picked.symbol = "?"
         revealed.append(picked)
+
+    elif revealed:
+        revealed.clear()
+        reveal_picked(grid)
 
     else:
         picked = None
