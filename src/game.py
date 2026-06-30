@@ -35,13 +35,22 @@ def start(state):
 
     while not command.casefold() in ["q", "x"]:
         print_status(state.g, state)
-        command = input("Use WASD to move, i för innehåll Q/X to quit. ")
+        command = input("Use WASD to move, i för innehåll, t för att desarmera fällor, Q/X to quit. ")
         command = command.casefold()[:1]
 
         # visar Inventarier
         if command == "i":
             print("Inventory: " + ", ".join(state.inventory))
             continue
+
+        if command == "t":
+            count = state.g.disarm_traps()
+            if count > 0:
+              print(f"Du desarmerade {count} fälla!")
+            else:
+              print("Det finns inga fällor att desarmera.")
+            continue
+
 
         maybe_item = try_move(command, state)
 
@@ -50,7 +59,9 @@ def start(state):
             print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
             state.g.clear(state.player.pos_x, state.player.pos_y)
             state.inventory.append(maybe_item.name)
-            state.grace_steps = 5
+            state.grace_steps +=5
+
+            # desarmerar alla fällor på spelplanen
 
         # Fälla minskar poängen med 10, om poäng mindre än 10 noll poäng
         elif maybe_item == "T":
@@ -73,18 +84,16 @@ def start(state):
         # kontrollerar om man gått 25 steg och anropar funktion för att skapa ny item
         #print(pickups.all_fruits)
         #print (state.steps)
-        if state.steps % 25 ==0 and state.steps > 0 and state.steps != state.last_revealed_at:
-            pickups.reveal_picked(state.g)
+        if state.steps % 25 == 0 and state.steps > 0 and state.steps != state.last_revealed_at:
+            new_item = pickups.spawn_new_item(state.g)
             state.last_revealed_at = state.steps
-            #testutskrift
-            #print(f"{pickups.picked.name} (value: {pickups.picked.value})")
+            #test
+            state.last_revealed_item = f"Ett nytt föremål har dykt upp: {new_item.name} (värde: {new_item.value})"
 
         # Exit
-        if maybe_item == "E" and len(state.inventory) == len(pickups.pickups):
+        if maybe_item == "E" and len(state.inventory) == pickups.total_items_spawned:
+            print("Thank you for playing!")
             break
-
-
-    print("Thank you for playing!")
 
 
 # __name__ skapas av Python och sätts till "__main__" om man startar game.py

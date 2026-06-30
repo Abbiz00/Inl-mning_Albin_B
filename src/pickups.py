@@ -20,31 +20,27 @@ pickups = [Item(name, value=20 if name in fruits else 10) for name in all_items]
 fruit_items = [item for item in pickups if item.name in fruits]
 picked = random.choice(pickups)
 revealed = []
+total_items_spawned = len(pickups)
 
 
-def reveal_picked(grid):
-    global picked
+def spawn_new_item(grid):
+    """Skapar ett nytt slumpat item och placerar det på en ledig ruta på kartan."""
+    global picked, total_items_spawned
 
-    candidates = []
-    for y in range(grid.height):
-        for x in range(grid.width):
-            cell = grid.get(x, y)
-            if isinstance(cell, Item):
-                candidates.append(cell)
+    name = random.choice(all_items)
+    value = 20 if name in fruits else 10
+    new_item = Item(name, value=value)
 
-    candidates = [item for item in candidates if item not in revealed]
+    while True:
+        x = random.randint(1, grid.width - 2)
+        y = random.randint(1, grid.height - 2)
+        if grid.is_empty(x, y):
+            grid.set(x, y, new_item)
+            break
 
-    if candidates:
-        picked = random.choice(candidates)
-        picked.symbol = "?"
-        revealed.append(picked)
-
-    elif revealed:
-        revealed.clear()
-        reveal_picked(grid)
-
-    else:
-        picked = None
+    picked = new_item
+    total_items_spawned += 1
+    return new_item
 
 def randomize(grid):
     for item in pickups:

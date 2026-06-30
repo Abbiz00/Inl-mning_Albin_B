@@ -120,3 +120,14 @@ class Grid:
         """Returnerar True om det inte finns något på aktuell ruta"""
         return self.get(x, y) == self.empty
 
+    def disarm_traps(self):
+        """Söker igenom hela griden och tar bort alla fällor ('T').
+        Returnerar antalet fällor som desarmerades."""
+        count = 0
+        for y in range(self.height):
+            for x in range(self.width):
+                if self.get(x, y) == "T":
+                    self.clear(x, y)
+                    count += 1
+        return count
+
